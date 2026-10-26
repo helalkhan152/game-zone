@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>আমার গেম জোন</title>
+<style>
+:root{--bg:#101827;--card:#1b2940;--accent:#54e1b7;--text:#f4f7fb;--muted:#b8c4d6}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--text)}
+header{padding:26px 16px;text-align:center;background:linear-gradient(135deg,#253b67,#147b79)}
+header h1{margin:0 0 8px;font-size:30px} header p{margin:0;color:#e3fff7}
+main{max-width:1000px;margin:auto;padding:18px}
+.notice{background:#26344b;border:1px solid #435571;padding:12px 14px;border-radius:12px;color:var(--muted);font-size:14px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.card{background:var(--card);padding:16px;border-radius:16px;border:1px solid #33445e}
+.card h2{font-size:19px;margin:0 0 8px}.card p{color:var(--muted);font-size:14px;min-height:40px}
+button{background:var(--accent);color:#08251e;border:0;border-radius:10px;padding:11px 14px;font-weight:700;width:100%;font-size:16px}
+#player{display:none;margin-top:20px;background:#0b1220;padding:12px;border-radius:16px}
+#player h2{font-size:18px} iframe{width:100%;height:min(65vh,560px);border:0;border-radius:10px;background:white}
+.small{font-size:12px;color:var(--muted)} footer{text-align:center;color:var(--muted);padding:25px 12px}
+</style>
+</head>
+<body>
+<header><h1>🎮 আমার গেম জোন</h1><p>পছন্দের গেম বেছে নিন, এখানেই খেলুন!</p></header>
+<main>
+<div class="notice">এটি আপনার ওয়েবসাইটের শুরুর নমুনা। গেম চালাতে হলে নিচের গেমগুলোর URL-এ এমন গেমের এমবেড/HTML5 ঠিকানা বসান যার মালিক সাইটে চালানোর অনুমতি দিয়েছেন। সাধারণ গেমের পেজের লিংক সব সময় iframe-এ চলবে না।</div>
+<section class="games" id="games"></section>
+<section id="player"><h2 id="gameTitle">গেম</h2><iframe id="gameFrame" title="গেম" allow="fullscreen; autoplay; gamepad" allowfullscreen></iframe><p class="small">গেম না খুললে সেই গেমের হোস্ট সাইট iframe অনুমতি নাও দিতে পারে।</p><button onclick="closeGame()">গেম বন্ধ করুন</button></section>
+</main>
+<footer>© 2026 আমার গেম জোন</footer>
+<script>
+/* পরে এখানে গেম যোগ করুন:
+{ title: "গেমের নাম", description: "ছোট বিবরণ", url: "অনুমোদিত embed URL" }
+*/
+const games = [
+ {title:"নমুনা গেম ১", description:"এখানে আপনার অনুমোদিত HTML5 গেম যোগ করুন।", url:""},
+ {title:"নমুনা গেম ২", description:"এই কার্ডে অন্য একটি অনুমোদিত গেম যোগ করুন।", url:""},
+ {title:"নমুনা গেম ৩", description:"গেমের এমবেড URL বসালে খেলোয়াড় এখানে খেলতে পারবে।", url:""}
+];
+const container=document.getElementById("games");
+games.forEach((g,i)=>{
+ const card=document.createElement("article");card.className="card";
+ const title=document.createElement("h2");title.textContent="🎯 "+g.title;
+ const desc=document.createElement("p");desc.textContent=g.description;
+ const btn=document.createElement("button");btn.textContent="খেলুন";
+ btn.onclick=()=>openGame(i);
+ card.append(title,desc,btn);container.append(card);
+});
+function openGame(i){
+ const g=games[i];
+ if(!g.url){alert("এই গেমের URL এখনো যোগ করা হয়নি। আগে অনুমোদিত গেমের embed URL বসাতে হবে।");return;}
+ document.getElementById("gameTitle").textContent=g.title;
+ document.getElementById("gameFrame").src=g.url;
+ document.getElementById("player").style.display="block";
+ document.getElementById("player").scrollIntoView({behavior:"smooth"});
+}
+function closeGame(){document.getElementById("gameFrame").src="";document.getElementById("player").style.display="none";}
+</script>
+</body>
+</html>
